@@ -1,4 +1,4 @@
-import { StyleSheet, Text, ScrollView, Dimensions } from 'react-native'
+import { StyleSheet, Text, ScrollView } from 'react-native'
 import PageTemplate from '../template/PageTemplate'
 import Logo from '../../assets/icons/Logo.svg'
 import { colors } from '../styles/colors'
