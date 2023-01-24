@@ -7,6 +7,7 @@ import {
   Roboto_400Regular,
   Roboto_700Bold,
 } from '@expo-google-fonts/roboto'
+import SlidePage3 from './src/screen/SlidePage3'
 export default function App() {
   const [fontsLoaded] = useFonts({
     roboto: Roboto_400Regular,
@@ -22,7 +23,7 @@ export default function App() {
   } else {
     return (
       <SafeAreaView>
-        <SlidePage2 />
+        <SlidePage3 />
 
         <StatusBar style="auto" />
       </SafeAreaView>
