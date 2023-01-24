@@ -6,6 +6,7 @@ import Select, { DataDropdown } from '../components/select'
 import { useState } from 'react'
 export default function SlidePage3() {
   const [select1, setSelect1] = useState<DataDropdown | undefined>(undefined)
+
   const data: DataDropdown[] = [
     { label: 'One', value: '1' },
     { label: 'Two', value: '2' },

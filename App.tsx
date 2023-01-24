@@ -1,13 +1,12 @@
 import { StatusBar } from 'expo-status-bar'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import SlidePage1 from './src/screen/SlidePage1'
-import SlidePage2 from './src/screen/SlidePage2'
+import { SafeAreaView, Text, View } from 'react-native'
 import {
   useFonts,
   Roboto_400Regular,
   Roboto_700Bold,
 } from '@expo-google-fonts/roboto'
-import SlidePage3 from './src/screen/SlidePage3'
+import WelconSlide from './src/components/WelconSlider'
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     roboto: Roboto_400Regular,
@@ -23,7 +22,7 @@ export default function App() {
   } else {
     return (
       <SafeAreaView>
-        <SlidePage3 />
+        <WelconSlide />
 
         <StatusBar style="auto" />
       </SafeAreaView>
