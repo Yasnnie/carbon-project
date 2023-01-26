@@ -55,7 +55,7 @@ export default function SlidePage2() {
 const styles = StyleSheet.create({
   gradient: {
     alignItems: 'center',
-    paddingBottom: 64,
+    paddingBottom: 110,
   },
   scrollView: {
     paddingHorizontal: 24,
