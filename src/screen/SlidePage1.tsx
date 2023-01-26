@@ -6,7 +6,7 @@ import PageTemplate from '../template/PageTemplate'
 export default function SlidePage1() {
   return (
     <PageTemplate style={styles.gradient}>
-      <Logo width={120} height={100} />
+      <Logo width={120} height={120} />
       <Text style={[styles.whiteText, styles.title]}>
         Seja bem-vindo ao <Text style={styles.orangeText}>Carbon</Text>Project
       </Text>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 14,
     position: 'absolute',
-    bottom: 64,
+    bottom: 100,
     fontFamily: 'roboto',
   },
 })

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, ScrollView, Dimensions } from 'react-native'
+import { StyleSheet, Text, ScrollView } from 'react-native'
 import PageTemplate from '../template/PageTemplate'
 import Logo from '../../assets/icons/Logo.svg'
 import { colors } from '../styles/colors'
@@ -55,7 +55,7 @@ export default function SlidePage2() {
 const styles = StyleSheet.create({
   gradient: {
     alignItems: 'center',
-    paddingBottom: 64,
+    paddingBottom: 110,
   },
   scrollView: {
     paddingHorizontal: 24,
