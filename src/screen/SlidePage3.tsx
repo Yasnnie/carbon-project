@@ -2,7 +2,7 @@ import PageTemplate from '../template/PageTemplate'
 import Logo from '../../assets/icons/Logo.svg'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { colors } from '../styles/colors'
-import Select, { DataDropdown } from '../components/select'
+import Select, { DataDropdown } from '../components/Select'
 import { useState } from 'react'
 export default function SlidePage3() {
   const [select1, setSelect1] = useState<DataDropdown | undefined>(undefined)
