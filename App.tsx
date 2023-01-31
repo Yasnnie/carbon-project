@@ -5,7 +5,7 @@ import {
   Roboto_400Regular,
   Roboto_700Bold,
 } from '@expo-google-fonts/roboto'
-import ProjectionPage from './src/screen/ProjectionPage'
+import WelconSlide from './src/components/WelconSlider'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -21,10 +21,10 @@ export default function App() {
     )
   } else {
     return (
-      <SafeAreaView>
-        <ProjectionPage />
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#1E1E1E' }}>
+        <WelconSlide />
 
-        <StatusBar style="auto" />
+        <StatusBar style="light" />
       </SafeAreaView>
     )
   }

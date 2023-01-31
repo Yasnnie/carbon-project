@@ -16,14 +16,13 @@ function CardComparison(item: Comparison) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    alignItems: 'center',
+    flex: 1,
+    paddingHorizontal: 8,
   },
   text: { color: colors.white, fontSize: 16, lineHeight: 20, marginLeft: 16 },
   imgContainer: {
     width: 50,
     height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 })
 

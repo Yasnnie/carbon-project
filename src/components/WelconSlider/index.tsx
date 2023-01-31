@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    bottom: 64,
+    bottom: 24,
     width: 78,
   },
   indicator: {

@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 14,
     position: 'absolute',
-    bottom: 100,
+    bottom: 56,
     fontFamily: 'roboto',
   },
 })

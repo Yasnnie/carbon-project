@@ -7,6 +7,7 @@ import EconomyComparison from '../../assets/icons/EconomyComparison.svg'
 import PopulationComparison from '../../assets/icons/PopulationComparison.svg'
 import EnergyEfficiency from '../../assets/icons/EnergyEfficiency.svg'
 import { Comparison } from '../interface/comparison'
+import Graphic from '../components/Graphic'
 
 const data: Comparison[] = [
   {
@@ -31,6 +32,7 @@ export default function ProjectionPage() {
     return (
       <View style={styles.headerContainer}>
         <Logo width={40} height={40} />
+        <Graphic />
       </View>
     )
   }
@@ -38,11 +40,12 @@ export default function ProjectionPage() {
   return (
     <PageTemplate style={styles.gradient}>
       <FlatList
-        style={styles.flatListStyle}
+        showsVerticalScrollIndicator={false}
         data={data}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         renderItem={({ item }) => CardComparison(item)}
         ListHeaderComponent={HeaderFlatList}
+        contentContainerStyle={{ paddingVertical: 24 }}
       />
     </PageTemplate>
   )
@@ -50,15 +53,12 @@ export default function ProjectionPage() {
 
 const styles = StyleSheet.create({
   gradient: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
   },
-  flatListStyle: {
-    paddingVertical: 24,
-    width: '100%',
-  },
+
   headerContainer: {
-    width: '100%',
-    alignContent: 'center',
+    flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 40,
   },
