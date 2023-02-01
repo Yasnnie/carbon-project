@@ -21,10 +21,10 @@ export default function App() {
     )
   } else {
     return (
-      <SafeAreaView>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#1E1E1E' }}>
         <WelconSlide />
 
-        <StatusBar style="auto" />
+        <StatusBar style="light" />
       </SafeAreaView>
     )
   }

@@ -19,12 +19,11 @@ export default function PageTemplate({ style, children }: PageTemplateProps) {
 }
 
 const width = Dimensions.get('screen').width
-const height = Dimensions.get('screen').height
 
 const styles = StyleSheet.create({
   deafult: {
-    width: width,
-    height: height - 40,
     position: 'relative',
+    flex: 1,
+    width: width,
   },
 })
