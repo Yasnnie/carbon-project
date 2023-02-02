@@ -1,96 +1,75 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import {
   FlatList,
   StyleSheet,
   Text,
   TouchableOpacity,
-  Modal,
   View,
   ViewStyle,
   StyleProp,
+  TextInput,
 } from 'react-native'
 import { colors } from '../../styles/colors'
 import SelectIcon from '../../../assets/icons/SelectIcon.svg'
 
-export interface DataDropdown {
-  label: string
-  value: string
-}
-
 interface SelectProps {
   label: string
-  data: DataDropdown[]
-  onSelect: (item: { label: string; value: string }) => void
+  data: string[]
+  onSelect: (item: string) => void
   style?: StyleProp<ViewStyle> | undefined
 }
 
 export default function Select({ label, data, onSelect, style }: SelectProps) {
-  const DropdownButton = useRef<any>(null)
   const [visible, setVisible] = useState(false)
-  const [selected, setSelected] = useState<DataDropdown | undefined>(undefined)
-  const [dropdownTop, setDropdownTop] = useState(0)
-
-  const toggleDropdown = () => (visible ? setVisible(false) : openDropdown())
+  const [valueInput, setValueInput] = useState('')
+  const [countries, setCountries] = useState<string[]>([])
+  const [selected, setSelected] = useState<string | undefined>(undefined)
 
   function openDropdown() {
-    DropdownButton.current.measure(
-      (
-        _fx: number,
-        _fy: number,
-        _w: number,
-        h: number,
-        _px: number,
-        py: number
-      ) => {
-        setDropdownTop(py + h)
-      }
-    )
     setVisible(true)
   }
 
-  function onItemPress(item: DataDropdown) {
+  function onItemPress(item: string) {
     setSelected(item)
     onSelect(item)
+    setValueInput(item)
     setVisible(false)
   }
 
-  function renderItem({ item }: { item: DataDropdown }) {
+  function renderItem({ item }: { item: string }) {
     return (
       <TouchableOpacity style={styles.item} onPress={() => onItemPress(item)}>
-        <Text style={styles.label}>{item.label}</Text>
+        <Text style={styles.label}>{item}</Text>
       </TouchableOpacity>
     )
   }
 
   function renderDropdown() {
     return (
-      <Modal visible={visible} transparent animationType="none">
-        <TouchableOpacity
-          style={styles.overlay}
-          onPress={() => setVisible(false)}
-        >
-          <View style={[styles.dropdown, { top: dropdownTop }]}>
-            <FlatList
-              data={data}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index.toString()}
-            />
-          </View>
-        </TouchableOpacity>
-      </Modal>
+      <FlatList
+        style={[styles.dropdown, { display: visible ? 'flex' : 'none' }]}
+        data={countries}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+      />
     )
   }
 
   return (
-    <TouchableOpacity
-      ref={DropdownButton}
-      style={[styles.button, style]}
-      onPress={toggleDropdown}
-    >
+    <View style={[styles.button, style]}>
       {renderDropdown()}
-      <Text style={styles.label}>{(selected && selected.label) || label}</Text>
+      <TextInput
+        style={[styles.input, styles.label]}
+        onFocus={openDropdown}
+        value={valueInput}
+        onChangeText={(value) => {
+          setValueInput(value)
+          setCountries(data.filter((item) => item.startsWith(value)))
+        }}
+      />
+
       <SelectIcon width={16} height={13} />
-    </TouchableOpacity>
+    </View>
   )
 }
 
@@ -105,6 +84,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     width: '100%',
     maxWidth: 272,
+    position: 'relative',
   },
   label: {
     color: colors.white,
@@ -115,24 +95,25 @@ const styles = StyleSheet.create({
   dropdown: {
     position: 'absolute',
     backgroundColor: colors.orange,
-    width: '100%',
-    maxWidth: 272,
+    width: 272,
     maxHeight: 144,
     shadowColor: '#000000',
     shadowRadius: 4,
     shadowOffset: { height: 4, width: 0 },
     shadowOpacity: 0.5,
+    top: 48,
   },
-  overlay: {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-  },
+
   item: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 24,
     paddingVertical: 14,
 
     borderBottomWidth: 1,
     borderColor: colors.darkOrange,
+  },
+  input: {
+    width: '95%',
+    height: '100%',
+    color: colors.white,
   },
 })
