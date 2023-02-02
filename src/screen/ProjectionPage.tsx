@@ -8,8 +8,10 @@ import PopulationComparison from '../../assets/icons/PopulationComparison.svg'
 import EnergyEfficiency from '../../assets/icons/EnergyEfficiency.svg'
 import { Comparison } from '../interface/comparison'
 import Graphic from '../components/Graphic'
+import { useEffect, useState } from 'react'
+import { getPredicted } from '../service/ApiBase'
 
-const data: Comparison[] = [
+const comparasion: Comparison[] = [
   {
     image: EnergyComparison,
     text: 'O gás carbônico é uma substância encontrada naturalmente na atmosfera, nos mares, lagos e rios.',
@@ -27,12 +29,30 @@ const data: Comparison[] = [
     text: 'O gás carbônico é uma substância encontrada naturalmente na atmosfera, nos mares, lagos e rios.',
   },
 ]
+
+export interface PredictedData {
+  observed_data: {
+    x: string[]
+    y: number[]
+  }
+  predicted_data: {
+    x: string[]
+    y: number[]
+  }
+}
+
 export default function ProjectionPage() {
+  const [data, setData] = useState<PredictedData | undefined>(undefined)
+
+  useEffect(() => {
+    getPredicted('Brazil').then((res) => setData(res))
+  }, [])
+
   function HeaderFlatList() {
     return (
       <View style={styles.headerContainer}>
         <Logo width={40} height={40} />
-        <Graphic />
+        {data && <Graphic data={data} />}
       </View>
     )
   }
@@ -41,7 +61,7 @@ export default function ProjectionPage() {
     <PageTemplate style={styles.gradient}>
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={data}
+        data={comparasion}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         renderItem={({ item }) => CardComparison(item)}
         ListHeaderComponent={HeaderFlatList}

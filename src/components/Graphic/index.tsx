@@ -1,33 +1,37 @@
 import { LineChart } from 'react-native-chart-kit'
 import { View, Text, Dimensions, StyleSheet } from 'react-native'
 import { colors } from '../../styles/colors'
+import { PredictedData } from '../../screen/ProjectionPage'
 
-export default function Graphic() {
+interface GraphicProps {
+  data: PredictedData
+}
+
+export default function Graphic({ data }: GraphicProps) {
   return (
     <View>
-      <Text style={styles.subtitle}>Projeção até Março de 2050</Text>
-      <Text style={styles.title}>5.987,37</Text>
+      <Text style={styles.subtitle}>Projeção até 2050</Text>
+      <Text style={styles.title}>
+        {data.predicted_data.y[data.predicted_data.y.length - 1]}
+      </Text>
       <Text style={styles.complement}>De crescimento do gás carbônico</Text>
       <LineChart
         data={{
-          labels: ['2018', '2019', '2020', '2021', '2022', '2023'],
+          labels: data.observed_data.x,
           datasets: [
             {
-              data: [
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-              ],
+              data: data.observed_data.y,
+            },
+            {
+              data: data.predicted_data.y,
+              color: (opacity = 1) => `rgba(39, 38, 38, ${opacity})`,
             },
           ],
         }}
         width={Dimensions.get('window').width - 32} // from react-native
         height={240}
         yAxisSuffix="k"
-        yAxisInterval={1} // optional, defaults to 1
+        // optional, defaults to 1
         chartConfig={{
           backgroundColor: '#e26a00',
           backgroundGradientFrom: '#fb8c00',
@@ -37,9 +41,7 @@ export default function Graphic() {
           labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
 
           propsForDots: {
-            r: '6',
-            strokeWidth: '2',
-            stroke: '#ffa726',
+            r: '4',
           },
         }}
         bezier
