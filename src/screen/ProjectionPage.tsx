@@ -6,6 +6,7 @@ import Logo from '../../assets/icons/Logo.svg'
 import Graphic from '../components/Graphic'
 import { useEffect, useState } from 'react'
 import { getCorrelections, getPredicted } from '../service/ApiBase'
+import { useRoute } from '@react-navigation/native'
 
 export interface PredictedData {
   observed_data: {
@@ -31,14 +32,19 @@ export interface Correlection {
 export default function ProjectionPage() {
   const [data, setData] = useState<PredictedData | undefined>(undefined)
   const [correlection, setCorrelection] = useState<Correlection[]>([])
+  const router = useRoute<any>()
 
   useEffect(() => {
-    getPredicted('Brazil').then((res) => setData(res))
-    getCorrelections('Brazil').then((res) =>
-      setCorrelection(
-        res.filter((item: Correlection) => item.correlation_coeficient > 0.6)
+    if (router.params) {
+      const country = router.params.selected as string
+
+      getPredicted(country).then((res) => setData(res))
+      getCorrelections(country).then((res) =>
+        setCorrelection(
+          res.filter((item: Correlection) => item.correlation_coeficient > 0.6)
+        )
       )
-    )
+    }
   }, [])
 
   function HeaderFlatList() {

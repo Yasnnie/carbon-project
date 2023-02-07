@@ -10,15 +10,23 @@ import { colors } from '../styles/colors'
 import Select from '../components/Select'
 import { useEffect, useState } from 'react'
 import { getAllContries } from '../service/ApiBase'
+import { useNavigation } from '@react-navigation/native'
+
 export default function SlidePage3() {
   const [selected, setSelected] = useState<string | undefined>(undefined)
   const [countries, setCountries] = useState<string[]>([])
+
+  const navigation = useNavigation<any>()
+
   useEffect(() => {
-    getAllContries().then((res) => {
-      console.log('aqui')
-      setCountries(res.countries)
-    })
+    getAllContries().then((res) => setCountries(res.countries))
   }, [])
+
+  function handleSubmit() {
+    if (selected) {
+      navigation.navigate('Projection', { selected })
+    }
+  }
 
   return (
     <KeyboardAvoidingView behavior="padding">
@@ -31,7 +39,7 @@ export default function SlidePage3() {
           data={countries}
         />
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.textButton}>Projetar</Text>
         </TouchableOpacity>
       </PageTemplate>
