@@ -23,6 +23,7 @@ export default function App() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#1E1E1E' }}>
         <ProjectionPage />
+        {/* <WelconSlide /> */}
 
         <StatusBar style="light" />
       </SafeAreaView>

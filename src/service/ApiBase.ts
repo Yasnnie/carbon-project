@@ -22,10 +22,8 @@ export async function getPredicted(name: string) {
   return res.data
 }
 
-export async function getCorrelections(name: string, correlation_var: string) {
-  const res = await apiBase.get(
-    `${name}/predicted_co2_values/${correlation_var}/`
-  )
+export async function getCorrelections(name: string) {
+  const res = await apiBase.get(`${name}/correlation/`)
 
   return res.data
 }
