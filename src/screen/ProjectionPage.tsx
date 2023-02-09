@@ -1,12 +1,22 @@
-import { FlatList, StyleSheet, View } from 'react-native'
-import CardComparison from '../components/CardComparison'
+import { useEffect, useState } from 'react'
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import PageTemplate from '../template/PageTemplate'
-import Logo from '../../assets/icons/Logo.svg'
+import { useRoute } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 
 import Graphic from '../components/Graphic'
-import { useEffect, useState } from 'react'
+import CardComparison from '../components/CardComparison'
+import { colors } from '../styles/colors'
 import { getCorrelections, getPredicted } from '../service/ApiBase'
-import { useRoute } from '@react-navigation/native'
+
+import Logo from '../../assets/icons/Logo.svg'
+import GoBackArrow from '../../assets/icons/GoBackArrow.svg'
 
 export interface PredictedData {
   observed_data: {
@@ -33,11 +43,11 @@ export default function ProjectionPage() {
   const [data, setData] = useState<PredictedData | undefined>(undefined)
   const [correlection, setCorrelection] = useState<Correlection[]>([])
   const router = useRoute<any>()
+  const navigation = useNavigation<any>()
+  const country = router.params.selected as string
 
   useEffect(() => {
     if (router.params) {
-      const country = router.params.selected as string
-
       getPredicted(country).then((res) => setData(res))
       getCorrelections(country).then((res) =>
         setCorrelection(
@@ -47,10 +57,17 @@ export default function ProjectionPage() {
     }
   }, [])
 
+  const handleGoBack = () => navigation.goBack()
+
   function HeaderFlatList() {
     return (
       <View style={styles.headerContainer}>
         <Logo width={40} height={40} />
+        <Text style={styles.country}>{country}</Text>
+        <TouchableOpacity style={styles.buttonGoBack} onPress={handleGoBack}>
+          <GoBackArrow width={30} height={30} />
+          <Text style={styles.goBackText}>Voltar</Text>
+        </TouchableOpacity>
         {data && <Graphic data={data} />}
       </View>
     )
@@ -76,12 +93,36 @@ const styles = StyleSheet.create({
   },
 
   headerContainer: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 40,
+    marginBottom: 80,
+    paddingTop: 60,
+    width: '100%',
+    height: 650,
+    position: 'relative',
   },
   separator: {
     height: 32,
+  },
+  country: {
+    fontSize: 40,
+    lineHeight: 48,
+    color: colors.white,
+    fontFamily: 'robotoBold',
+    marginTop: 16,
+  },
+
+  buttonGoBack: {
+    position: 'absolute',
+    top: 8,
+    left: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  goBackText: {
+    color: colors.white,
+    fontFamily: 'roboto',
+    fontSize: 14,
+    marginLeft: 4,
   },
 })
