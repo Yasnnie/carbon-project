@@ -1,53 +1,62 @@
 import PageTemplate from '../template/PageTemplate'
 import Logo from '../../assets/icons/Logo.svg'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import {
+  KeyboardAvoidingView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native'
 import { colors } from '../styles/colors'
-import Select, { DataDropdown } from '../components/Select'
-import { useState } from 'react'
+import Select from '../components/Select'
+import { useEffect, useState } from 'react'
+import { getAllContries } from '../service/ApiBase'
+import { useNavigation } from '@react-navigation/native'
+
 export default function SlidePage3() {
-  const [select1, setSelect1] = useState<DataDropdown | undefined>(undefined)
+  const [selected, setSelected] = useState<string | undefined>(undefined)
+  const [countries, setCountries] = useState<string[]>([])
 
-  const data: DataDropdown[] = [
-    { label: 'One', value: '1' },
-    { label: 'Two', value: '2' },
-    { label: 'Three', value: '3' },
-    { label: 'Four', value: '4' },
-    { label: 'Five', value: '5' },
-    { label: 'One', value: '1' },
-    { label: 'Two', value: '2' },
-    { label: 'Three', value: '3' },
-    { label: 'Four', value: '4' },
-    { label: 'Five', value: '5' },
-  ]
+  const navigation = useNavigation<any>()
+
+  useEffect(() => {
+    getAllContries().then((res) => setCountries(res.countries))
+  }, [])
+
+  function handleSubmit() {
+    if (selected) {
+      navigation.navigate('Projection', { selected })
+    }
+  }
+
   return (
-    <PageTemplate style={styles.gradient}>
-      <Logo width={120} height={120} />
-      <Text style={styles.title}>Selecione a região para a simulação:</Text>
-      <Select
-        label="Selecione o continente..."
-        onSelect={(item) => setSelect1(item)}
-        data={data}
-      />
-      <Select
-        label="Selecione o país..."
-        onSelect={(item) => setSelect1(item)}
-        data={data}
-        style={styles.select2}
-      />
+    <KeyboardAvoidingView behavior="padding">
+      <PageTemplate style={styles.gradient}>
+        <Logo width={120} height={120} />
+        <Text style={styles.title}>Selecione a região para a simulação:</Text>
+        <Select
+          label="Selecione o continente..."
+          onSelect={(item) => setSelected(item)}
+          data={countries}
+        />
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.textButton}>Projetar</Text>
-      </TouchableOpacity>
-    </PageTemplate>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.textButton}>Projetar</Text>
+        </TouchableOpacity>
+      </PageTemplate>
+    </KeyboardAvoidingView>
   )
 }
 
 const styles = StyleSheet.create({
+  scrollView: {
+    height: '100%',
+  },
   gradient: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 24,
   },
+
   title: {
     maxWidth: 300,
     fontSize: 32,
